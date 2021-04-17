@@ -13,7 +13,7 @@ const doIt = async () => {
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
 
-  for(let year = 1984; year <= 2021; year++){
+  for(let year = 2003; year <= 2021; year++){
     for(let pagination = 1; pagination <= 15; pagination++) {
       const url = getUrl(`${year}-${year}`, pagination)
 
