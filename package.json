@@ -1,0 +1,23 @@
+{
+  "name": "podnapisi-subtitle-downloader",
+  "version": "1.0.0",
+  "description": "Download subtitles from podnapisi.net",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plygrynd-jynkyrd/podnapisi-subtitle-downloader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/plygrynd-jynkyrd/podnapisi-subtitle-downloader/issues"
+  },
+  "homepage": "https://github.com/plygrynd-jynkyrd/podnapisi-subtitle-downloader#readme",
+  "dependencies": {
+    "puppeteer": "^8.0.0"
+  }
+}
