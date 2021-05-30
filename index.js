@@ -19,9 +19,7 @@ const pause = (ms) =>
 
 const LINKS_TO_DOWNLOAD = []
 
-const addLinksToDownload = async(url) => {
-  console.log("url", url)
-
+const addLinksToDownload = async(url, retryCount = 5) => {
   try{ 
     const { data } = await axios({
       method: 'GET',
@@ -35,7 +33,8 @@ const addLinksToDownload = async(url) => {
     const $ = cheerio.load(data);
     const movies = $('table tbody tr')
     if(movies.length < 1) {
-      return console.log('no movies found')
+      console.log('no movies found')
+      return true;
     }
 
     const links = movies.map((i, e) => {
@@ -43,7 +42,8 @@ const addLinksToDownload = async(url) => {
     }).get()
 
     if(links.length < 1) {
-      return console.log('no links found')
+      console.log('no links found')
+      return true;
     }
 
     LINKS_TO_DOWNLOAD.push(...links)
@@ -56,10 +56,12 @@ const addLinksToDownload = async(url) => {
 const start = async () => {
   for(let year = YEAR_START; year <= YEAR_END; year++){
     for(let pagination = 1; pagination <= 15; pagination++) {
-      console.log(`Downloading Year: ${year} Page: ${pagination}`)
+      process.stdout.write(`Downloading Year: ${year} Page: ${pagination}\r`);
 
       const url = getUrl(`${year}-${year}`, pagination)
-      await addLinksToDownload(url)
+      const hasNoMoreMovies = await addLinksToDownload(url)
+
+      if(hasNoMoreMovies) break;
 
       await pause(5000)
     }
@@ -91,11 +93,9 @@ const downloadFile = async(link) => {
   
 }
 setInterval(async() => {
-  if(LINKS_TO_DOWNLOAD.length < 1) {
-    return console.log('no files to download yet...')
-  }
+  if(LINKS_TO_DOWNLOAD.length < 1) return
 
-  console.log(`Downloading file.. total: ${LINKS_TO_DOWNLOAD.length}`)
+  process.stdout.write(`Downloading file.. total: ${LINKS_TO_DOWNLOAD.length}\r`);
 
   const link = LINKS_TO_DOWNLOAD.pop()
   
@@ -104,4 +104,4 @@ setInterval(async() => {
     LINKS_TO_DOWNLOAD.push(retryLink)
   }
 
-}, 200)
+}, 1000)
