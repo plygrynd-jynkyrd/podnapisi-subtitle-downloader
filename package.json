@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/plygrynd-jynkyrd/podnapisi-subtitle-downloader#readme",
   "dependencies": {
-    "puppeteer": "^8.0.0"
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.9",
+    "uuid": "^8.3.2"
   }
 }
