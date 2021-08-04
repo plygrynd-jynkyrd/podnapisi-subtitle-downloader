@@ -49,6 +49,7 @@ const addLinksToDownload = async(url, retryCount = 5) => {
     LINKS_TO_DOWNLOAD.push(...links)
   }catch(e){
     console.log(`retrying download movie ${url}`)
+    await pause(5000)
     return addLinksToDownload(url)
   }  
 }
@@ -61,9 +62,11 @@ const start = async () => {
       const url = getUrl(`${year}-${year}`, pagination)
       const hasNoMoreMovies = await addLinksToDownload(url)
 
+      await pause(5000)
+
       if(hasNoMoreMovies) break;
 
-      await pause(5000)
+      
     }
   }
 }
